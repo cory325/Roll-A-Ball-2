@@ -8,9 +8,15 @@ public class PlayerController : MonoBehaviour
     public float speed;
     public Text countText;
     public Text winText;
+    public Text scoreText;
+    public Text livesText;
+    public Text loseText;
 
     private Rigidbody rb;
     private int count;
+    private int score;
+    private int lives;
+    private int lose;
 
     void Start()
     {
@@ -18,6 +24,9 @@ public class PlayerController : MonoBehaviour
         count = 0;
         SetCountText ();
         winText.text = "";
+        loseText.text = "";
+        score = 0;
+        lives = 3;
 
     }
 
@@ -32,23 +41,64 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKey("escape"))
             Application.Quit();
-    }
+
+
+        }
 
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Pick Up"))
         {
-            other.gameObject.SetActive (false);
+            other.gameObject.SetActive(false);
             count = count + 1;
-            SetCountText ();
+            score = score + 1;
+            SetCountText();
         }
+        else if (other.gameObject.CompareTag("Enemy"))
+        {
+            other.gameObject.SetActive(false);
+            count = count + 1;
+            score = score - 1;
+            lives = lives - 1;
+            SetCountText();
+        }
+        if (count == 12)
+
+        {
+            transform.position = new Vector3(21.15f, transform.position.y, -0.17f);
+        }
+
     }
+
     void SetCountText ()
     {
-        countText.text = "Count: " + count.ToString ();
-        if (count  >= 12)
+            countText.text = "Count: " + count.ToString ();
+        if (count >= 12)
         {
             winText.text = "You Win!";
         }
+
+        scoreText.text = "Score: " + score.ToString();
+
+        livesText.text = "Lives" + lives.ToString();
+
+
+
+        {
+
+            if (lives == 0) ;
+            loseText.text = "You Lose!";
+            
+
+        }
+
+
+
+      
+
+
+
     }
+
+  
 }
