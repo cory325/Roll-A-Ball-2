@@ -4,29 +4,13 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-   
-    public float speed = 1;
+    Vector3 pointA = new Vector3(32, 1, -4);
+    Vector3 pointB = new Vector3(32, 1, -9);
 
-
-    float dir = 1;
-
-    void Update()
+    private void Update()
     {
-       
-        transform.Translate(new Vector3(1, 0, 0) * Time.deltaTime * dir * speed);
-
+        transform.position = Vector3.Lerp(pointA,pointB,Mathf.PingPong(Time.time, 1));
     }
-
-   
-    void OnTriggerEnter(Collider coll)
-    {
-
-        if (coll.gameObject.tag == "Finish")
-        {
-        
-            dir *= -1;
-        }
-    }
-
 }
+
  

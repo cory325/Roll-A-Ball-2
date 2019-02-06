@@ -27,6 +27,8 @@ public class PlayerController : MonoBehaviour
         loseText.text = "";
         score = 0;
         lives = 3;
+        SetScoreText();
+        SetLivesText();
 
     }
 
@@ -51,54 +53,60 @@ public class PlayerController : MonoBehaviour
         {
             other.gameObject.SetActive(false);
             count = count + 1;
-            score = score + 1;
             SetCountText();
         }
         else if (other.gameObject.CompareTag("Enemy"))
         {
             other.gameObject.SetActive(false);
-            count = count + 1;
-            score = score - 1;
-            lives = lives - 1;
+            count = count - 1;
             SetCountText();
         }
+
+        if (other.gameObject.CompareTag("Pick Up"))
+        {
+            other.gameObject.SetActive(false);
+            score = score + 1;
+            SetScoreText();
+        }
+
         if (count == 12)
 
         {
             transform.position = new Vector3(21.15f, transform.position.y, -0.17f);
         }
-
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            other.gameObject.SetActive(false);
+            lives = lives - 1;
+            SetLivesText();
+        }
     }
 
-    void SetCountText ()
+    void SetCountText()
     {
-            countText.text = "Count: " + count.ToString ();
-        if (count >= 12)
+        countText.text = "Count: " + count.ToString();
+        if (count >= 20)
         {
             winText.text = "You Win!";
         }
 
-        scoreText.text = "Score: " + score.ToString();
+    }
 
-        livesText.text = "Lives" + lives.ToString();
-
-
-
-        {
-
-            if (lives == 0) ;
-            loseText.text = "You Lose!";
-            
-
-        }
-
-
-
-      
-
-
+    void SetScoreText()
+    { 
+    scoreText.text = "Score: " + score.ToString();
+        if (score >= 20) 
+        { winText.text = "You Win!"; }
 
     }
 
-  
+    void SetLivesText ()
+    {
+        livesText.text = "Lives" + lives.ToString();
+        if (lives <= 0)
+        {
+            loseText.text = "You Lose!";
+            Destroy(this);
+        }
+    }
 }
